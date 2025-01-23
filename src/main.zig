@@ -6,7 +6,11 @@ pub fn main() anyerror!void {
     const screen_width = 2560;
     const screen_height = 1440;
 
-    rl.setConfigFlags(.{ .fullscreen_mode = true, .window_highdpi = true, .window_resizable = true });
+    rl.setConfigFlags(.{
+        .fullscreen_mode = true,
+        .window_highdpi = true,
+        .window_resizable = true,
+    });
 
     rl.initWindow(screen_width, screen_height, "movement 2");
     defer rl.closeWindow();
