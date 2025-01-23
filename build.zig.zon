@@ -1,10 +1,10 @@
 .{
-    .name = "Project",
+    .name = "Movement2",
     .version = "0.0.1",
     .dependencies = .{
         .@"raylib-zig" = .{
-            .url = "git+https://github.com/Not-Nik/raylib-zig?ref=devel#1ef4995f82686fda7c2eff1c76f26d1200d74760",
-            .hash = "12206cf18aea41dc1e61b697c36ef627752e84fe9a9362b800240fce7dea3665094d",
+            .url = "git+https://github.com/stanleymw/raylib-zig?ref=devel#9efd396b5906df0523f47841d71cbb1f6f708b4a",
+            .hash = "12202cf56e5c90ab3af47dc2db26d2ee0bee76b833f00ec87eb7c3aeab6110f60395",
         },
     },
     .paths = .{""},

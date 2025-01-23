@@ -3,10 +3,8 @@ const rl = @import("raylib");
 const game = @import("game.zig");
 
 pub fn main() anyerror!void {
-    const current_monitor = rl.getCurrentMonitor();
-
-    const screen_width = rl.getMonitorWidth(current_monitor);
-    const screen_height = rl.getMonitorHeight(current_monitor);
+    const screen_width = 2560;
+    const screen_height = 1440;
 
     rl.setConfigFlags(.{ .fullscreen_mode = true, .window_highdpi = true, .window_resizable = true });
 
