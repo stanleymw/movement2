@@ -1,34 +1,28 @@
-// raylib-zig (c) Nikolas Wipper 2023
-
 const rl = @import("raylib");
 
+const game = @import("game.zig");
+
 pub fn main() anyerror!void {
-    // Initialization
-    //--------------------------------------------------------------------------------------
-    const screenWidth = 800;
-    const screenHeight = 450;
+    const current_monitor = rl.getCurrentMonitor();
 
-    rl.initWindow(screenWidth, screenHeight, "raylib-zig [core] example - basic window");
-    defer rl.closeWindow(); // Close window and OpenGL context
+    const screen_width = rl.getMonitorWidth(current_monitor);
+    const screen_height = rl.getMonitorHeight(current_monitor);
 
-    rl.setTargetFPS(60); // Set our game to run at 60 frames-per-second
-    //--------------------------------------------------------------------------------------
+    rl.setConfigFlags(.{ .fullscreen_mode = true, .window_highdpi = true, .window_resizable = true });
+
+    rl.initWindow(screen_width, screen_height, "movement 2");
+    defer rl.closeWindow();
+
+    rl.disableCursor();
+
+    rl.setTargetFPS(240);
 
     // Main game loop
-    while (!rl.windowShouldClose()) { // Detect window close button or ESC key
-        // Update
-        //----------------------------------------------------------------------------------
-        // TODO: Update your variables here
-        //----------------------------------------------------------------------------------
+    while (!rl.windowShouldClose()) {
+        // update
+        game.update(rl.getFrameTime());
 
-        // Draw
-        //----------------------------------------------------------------------------------
-        rl.beginDrawing();
-        defer rl.endDrawing();
-
-        rl.clearBackground(rl.Color.white);
-
-        rl.drawText("Congrats! You created your first window!", 190, 200, 20, rl.Color.light_gray);
-        //----------------------------------------------------------------------------------
+        // draw
+        game.draw();
     }
 }
