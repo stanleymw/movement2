@@ -1,5 +1,7 @@
 const rl = @import("raylib");
 
+const consts = @import("constants.zig");
+
 pub const Player = struct {
     velocity: rl.Vector3,
     gravity: rl.Vector3,
@@ -22,7 +24,7 @@ pub const Player = struct {
         self.velocity = self.velocity.add(self.gravity.scale(dt));
         if (onGround(self)) {
             self.velocity.y = 0;
-        }
+        } else {}
 
         const velocity_scaled = self.velocity.scale(dt);
 
