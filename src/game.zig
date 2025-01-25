@@ -52,7 +52,7 @@ pub fn draw() void {
         plr.camera.begin();
         defer plr.camera.end();
 
-        rl.drawCube(.{ .x = 0, .y = 0, .z = 0 }, 1, 1, 1, rl.Color.red);
+        rl.drawCube(.{ .x = 0, .y = 1, .z = 0 }, 1, 2, 1, rl.Color.red);
         rl.drawGrid(32, 1);
     }
 
@@ -60,8 +60,8 @@ pub fn draw() void {
     if (std.fmt.bufPrintZ(&speed_buf, "{d:.3}", .{speed})) |x| {
         rl.drawText(
             x,
-            @divTrunc(rl.getScreenWidth(), 2),
-            @divTrunc(rl.getScreenHeight(), 4) * 3,
+            @divTrunc(rl.getRenderWidth(), 2),
+            @divTrunc(rl.getRenderHeight(), 4) * 3,
             36,
             rl.Color.black,
         );

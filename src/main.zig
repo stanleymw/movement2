@@ -7,8 +7,9 @@ pub fn main() anyerror!void {
     const screen_height = 1080;
 
     rl.setConfigFlags(.{
-        // .fullscreen_mode = true,
+        .fullscreen_mode = true,
         .window_highdpi = true,
+        .msaa_4x_hint = true,
         // .window_resizable = true,
     });
 
