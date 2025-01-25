@@ -3,8 +3,8 @@ const rl = @import("raylib");
 const game = @import("game.zig");
 
 pub fn main() anyerror!void {
-    const screen_width = 1280;
-    const screen_height = 720;
+    const screen_width = 1920;
+    const screen_height = 1080;
 
     rl.setConfigFlags(.{
         // .fullscreen_mode = true,
@@ -17,7 +17,7 @@ pub fn main() anyerror!void {
 
     rl.disableCursor();
 
-    rl.setTargetFPS(240);
+    rl.setTargetFPS(256);
 
     // Main game loop
     while (!rl.windowShouldClose()) {

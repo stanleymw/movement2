@@ -19,7 +19,7 @@ var plr = player.Player.init(
 );
 
 pub fn update(dt: f32) void {
-    plr.rotateCamera(rl.getMouseDelta(), dt);
+    plr.rotateCamera(rl.getMouseDelta());
 
     var mov: rl.Vector2 = rl.Vector2.init(0, 0);
 

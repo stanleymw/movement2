@@ -102,8 +102,8 @@ pub const Player = struct {
         self.velocity.z *= new_speed;
     }
 
-    pub fn rotateCamera(self: *Player, mouse_delta: rl.Vector2, dt: f32) void {
-        rl.cameraYaw(&self.camera, mouse_delta.x * -0.25 * dt, false);
-        rl.cameraPitch(&self.camera, mouse_delta.y * -0.25 * dt, true, false, false);
+    pub fn rotateCamera(self: *Player, mouse_delta: rl.Vector2) void {
+        rl.cameraYaw(&self.camera, mouse_delta.x * -(0.0009765625), false);
+        rl.cameraPitch(&self.camera, mouse_delta.y * -(0.0009765625), true, false, false);
     }
 };
