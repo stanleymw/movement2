@@ -4,7 +4,7 @@ const std = @import("std");
 const player = @import("player.zig");
 const consts = @import("constants.zig");
 
-const CAMERA_SPEED = 8;
+var speed_buf: [16:0]u8 = undefined;
 
 var plr = player.Player.init(
     .{ .x = 0, .y = 0, .z = 0 },
@@ -39,7 +39,6 @@ pub fn update(dt: f32) void {
     // update player and camera
     plr.update(mov, dt);
     // fwd.y = 0;
-    std.debug.print("velocity: {}\n", .{plr.velocity.length()});
 }
 
 pub fn draw() void {
@@ -56,6 +55,17 @@ pub fn draw() void {
         rl.drawCube(.{ .x = 0, .y = 0, .z = 0 }, 2, 2, 2, rl.Color.red);
         rl.drawGrid(32, 1);
     }
+
+    const speed: f32 = @sqrt(plr.velocity.x * plr.velocity.x + plr.velocity.z * plr.velocity.z);
+    if (std.fmt.bufPrintZ(&speed_buf, "{d:.3}", .{speed})) |x| {
+        rl.drawText(
+            x,
+            @divTrunc(rl.getScreenWidth(), 2),
+            @divTrunc(rl.getScreenHeight(), 4) * 3,
+            36,
+            rl.Color.black,
+        );
+    } else |_| {}
 
     rl.drawFPS(0, 0);
 }

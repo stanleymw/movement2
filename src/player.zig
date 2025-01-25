@@ -46,7 +46,7 @@ pub const Player = struct {
         }
 
         if (onGround(self)) {
-            if (rl.isKeyDown(.space)) {
+            if (rl.isKeyDown(.space) or rl.getMouseWheelMove() != 0) {
                 self.velocity.y = 6;
             } else {
                 self.velocity.y = 0;
