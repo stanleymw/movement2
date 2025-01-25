@@ -52,7 +52,7 @@ pub fn draw() void {
         plr.camera.begin();
         defer plr.camera.end();
 
-        rl.drawCube(.{ .x = 0, .y = 0, .z = 0 }, 2, 2, 2, rl.Color.red);
+        rl.drawCube(.{ .x = 0, .y = 0, .z = 0 }, 1, 1, 1, rl.Color.red);
         rl.drawGrid(32, 1);
     }
 

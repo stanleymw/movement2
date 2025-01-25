@@ -38,12 +38,7 @@ pub const Player = struct {
             .z = forward.z * user_command.x + right.z * user_command.y,
         };
         const wish_dir = wish_vel.normalize();
-        _ = wish_dir;
-        var wish_speed = wish_vel.length();
-        if (wish_speed > consts.max_speed) {
-            wish_vel = wish_vel.scale(consts.max_speed / wish_speed);
-            wish_speed = consts.max_speed;
-        }
+        const wish_speed = @min(wish_vel.length(), consts.max_speed);
 
         if (onGround(self)) {
             if (rl.isKeyDown(.space) or rl.getMouseWheelMove() != 0) {
@@ -52,9 +47,19 @@ pub const Player = struct {
                 self.velocity.y = 0;
 
                 self.groundFriction(dt);
-                self.groundAccelerate(wish_vel.normalize(), wish_speed, dt);
+                self.groundAccelerate(
+                    wish_dir,
+                    wish_speed,
+                    dt,
+                );
             }
-        } else {}
+        } else {
+            self.airAccelerate(
+                wish_dir,
+                wish_speed,
+                dt,
+            );
+        }
 
         const velocity_scaled = self.velocity.scale(dt);
 
@@ -62,10 +67,19 @@ pub const Player = struct {
         self.camera.target = self.camera.target.add(velocity_scaled);
     }
 
-    fn airAccelerate(self: *Player, wish_direction: rl.Vector3, dt: f32) void {
-        _ = self;
-        _ = dt;
-        _ = wish_direction;
+    fn airAccelerate(self: *Player, wish_direction: rl.Vector3, wish_speed: f32, dt: f32) void {
+        const cap_speed = @min(consts.air_speed_cap, wish_speed);
+
+        const current_speed = self.velocity.dotProduct(wish_direction);
+        const add_speed = cap_speed - current_speed;
+        if (add_speed <= 0) {
+            return;
+        }
+
+        const accel_speed = @min(consts.air_accelerate * wish_speed * dt, add_speed);
+        self.velocity.x += wish_direction.x * accel_speed;
+        self.velocity.y += wish_direction.y * accel_speed;
+        self.velocity.z += wish_direction.z * accel_speed;
     }
 
     fn groundAccelerate(self: *Player, wish_direction: rl.Vector3, wish_speed: f32, dt: f32) void {
@@ -75,8 +89,7 @@ pub const Player = struct {
             return;
         }
 
-        var accel_speed = consts.accelerate * dt * wish_speed;
-        accel_speed = @min(accel_speed, add_speed);
+        const accel_speed = @min(consts.accelerate * wish_speed * dt, add_speed);
 
         self.velocity.x += wish_direction.x * accel_speed;
         self.velocity.y += wish_direction.y * accel_speed;
