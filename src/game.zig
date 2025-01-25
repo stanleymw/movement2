@@ -19,35 +19,39 @@ var plr = player.Player.init(
 );
 
 pub fn update(dt: f32) void {
+    const delta = rl.getMouseDelta();
+    rl.cameraYaw(&plr.camera, delta.x * -0.25 * dt, false);
+    rl.cameraPitch(&plr.camera, delta.y * -0.25 * dt, true, false, false);
+
+    var forward = rl.getCameraForward(&plr.camera);
+    var right = rl.getCameraRight(&plr.camera);
+    right.y = 0;
+    forward.y = 0;
+    forward = forward.normalize();
+    right = right.normalize();
+
     var dx: f32 = 0;
     var dz: f32 = 0;
 
     if (rl.isKeyDown(.w)) {
-        dz -= 8;
-    }
-    if (rl.isKeyDown(.a)) {
-        dx -= 8;
-    }
-    if (rl.isKeyDown(.s)) {
-        dz += 8;
-    }
-    if (rl.isKeyDown(.d)) {
         dx += 8;
     }
-
-    plr.velocity = rl.Vector3{ .x = dx, .y = plr.velocity.y, .z = dz };
+    if (rl.isKeyDown(.a)) {
+        dz -= 8;
+    }
+    if (rl.isKeyDown(.s)) {
+        dx -= 8;
+    }
+    if (rl.isKeyDown(.d)) {
+        dz += 8;
+    }
 
     // update player and camera
+    plr.velocity.x = forward.x * dx + right.x * dz;
+    plr.velocity.z = forward.z * dx + right.z * dz;
     plr.update(dt);
-    const delta = rl.getMouseDelta();
-    rl.cameraYaw(&plr.camera, delta.x * dt * -0.25, false);
-    rl.cameraPitch(&plr.camera, delta.y * dt * -0.25, true, false, false);
-
-    var fwd = rl.getCameraForward(&plr.camera);
-    fwd.x = fwd.x * dx;
-    fwd.z = fwd.z * dz;
     // fwd.y = 0;
-    std.debug.print("fwd: {}\n", .{fwd});
+    // std.debug.print("fwd: {}\n", .{fwd});
 }
 
 pub fn draw() void {

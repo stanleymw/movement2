@@ -23,7 +23,11 @@ pub const Player = struct {
     pub fn update(self: *Player, dt: f32) void {
         self.velocity = self.velocity.add(self.gravity.scale(dt));
         if (onGround(self)) {
-            self.velocity.y = 0;
+            if (rl.isKeyDown(.space)) {
+                self.velocity.y = 6;
+            } else {
+                self.velocity.y = 0;
+            }
         } else {}
 
         const velocity_scaled = self.velocity.scale(dt);
